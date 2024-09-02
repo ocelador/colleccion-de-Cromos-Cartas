@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Inicio from "../views/Inicio.vue";
 import Collecciones from "../views/Collecciones.vue";
+import Cromos from "../views/Cromos.vue";
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: "/collecciones",
     name: "Collecciones",
     component: Collecciones,
+  },
+  {
+    path: "/cromos",
+    name: "Cromos",
+    component: Cromos,
   },
 ];
 
