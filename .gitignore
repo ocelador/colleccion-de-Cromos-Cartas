@@ -1,0 +1,52 @@
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración de IDEs
+/.idea/
+/*.iml
+/*.ipr
+/*.iws
+/.project
+/.classpath
+/.settings/
+
+# Archivos de compilación
+/target/
+/out/
+/build/
+
+# Archivos de dependencias
+/.mvn/
+/.mvn/wrapper/maven-wrapper.jar
+/.gradle/
+/.gradle/
+/build/
+
+# Archivos de logs
+*.log
+
+# Archivos de configuración de herramientas
+/.vscode/
+/*.swp
+/.editorconfig
+
+# Archivos de configuración de contenedores
+/.dockerignore
+/.env
+
+# Archivos de configuración de CI/CD
+/.travis.yml
+/.circleci/
+/.gitlab-ci.yml
+
+# Archivos de configuración de Spring Boot
+/application.properties
+/application.yml
+
+# Archivos de configuración de seguridad
+/secrets/
+*.key
+*.pem
+*.p12
+*.crt
+*.cer
