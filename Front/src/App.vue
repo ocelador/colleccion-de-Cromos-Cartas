@@ -5,78 +5,54 @@ import { RouterLink, RouterView } from 'vue-router';
 <template>
   <main>
     <nav>
-      
       <RouterLink active-class="active" to="/">Inicio</RouterLink>
-       
+      <RouterLink active-class="active" to="/collecciones">Collecciones</RouterLink>
+      <RouterLink active-class="active" to="/cromos">Cromos</RouterLink>
     </nav>
     <RouterView />
   </main>
 </template>
 
 <style scoped>
-.app-container {
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.app-nav {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
+main {
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
-.app-nav a {
-    text-decoration: none;
-    color: #333;
-    padding: 8px 16px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+a {
+  text-decoration: none;
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  margin-right: 25px;
+  display: inline-block;
+  font-weight: bold; 
+  color: lightblue;
 }
 
-.app-nav a:hover {
-    background-color: #f1f1f1;
+a:hover {
+  background-color: rgba(33, 245, 245, 0.5);
 }
 
-nav{
+nav {
   border-bottom: 1px solid black;
   text-align: center;
 }
 
 .active {
-    font-weight: bold;
-    color: red;
-}
-
-a {
-  margin-right: 25px;
+  font-weight: bold;
+  color: red;
 }
 
 .active:hover {
-    background-color: #ffe6e6;
-}
-
-@media (max-width: 768px) {
-    .app-nav {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .app-nav a {
-        padding: 10px;
-        font-size: 18px;
-    }
-
-    .active {
-        margin-right: 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .app-nav a {
-        padding: 8px;
-        font-size: 16px;
-    }
+  background-color: #ffe6e6;
 }
 </style>

@@ -1,11 +1,23 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Inicio from "../views/Inicio.vue";
+import Collecciones from "../views/Collecciones.vue";
+import Cromos from "../views/Cromos.vue";
 
 const routes = [
   {
     path: "/",
     name: "Inicio",
     component: Inicio,
+  },
+  {
+    path: "/collecciones",
+    name: "Collecciones",
+    component: Collecciones,
+  },
+  {
+    path: "/cromos",
+    name: "Cromos",
+    component: Cromos,
   },
 ];
 
