@@ -17,7 +17,11 @@ import es.cic.curso.coleccionCartas.model.Cromos;
 import es.cic.curso.coleccionCartas.service.CromosService;
 
 @RestController
+<<<<<<< HEAD
 @RequestMapping("/api/cromos")
+=======
+@RequestMapping("/cromos")
+>>>>>>> 6e5026e7bc4cb5e57ab0376f51d11cbdaf20fdb5
 public class CromosController {
 
     @Autowired
