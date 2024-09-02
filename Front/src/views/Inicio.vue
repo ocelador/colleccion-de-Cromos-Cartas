@@ -14,6 +14,7 @@ const message = ref('Colleccion de Cromos/Cartas');
 
 <style scoped>
 .inicio-container {
+    text-align: center;
     background-color: #f8f9fa;
 }
 
