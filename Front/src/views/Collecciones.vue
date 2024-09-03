@@ -37,7 +37,8 @@
 }
 
 .imagen:hover {
-    transform: scale(1.15); 
+    transform: scale(1.15);
+    filter: brightness(0.15); 
 }
 
 @media (max-width: 768px) {
