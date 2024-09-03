@@ -7,6 +7,7 @@ import { RouterLink, RouterView } from 'vue-router';
     <nav>
       <RouterLink active-class="active" to="/">Inicio</RouterLink>
       <RouterLink active-class="active" to="/collecciones">Collecciones</RouterLink>
+      <RouterLink active-class="active" to="/albumes">Albumes</RouterLink>
       <RouterLink active-class="active" to="/cromos">Cromos</RouterLink>
     </nav>
     <RouterView />
