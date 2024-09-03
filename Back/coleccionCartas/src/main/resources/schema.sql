@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS album (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     descripcion TEXT,
+    imagen VARCHAR(255),
     usuario_id BIGINT,
     FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );

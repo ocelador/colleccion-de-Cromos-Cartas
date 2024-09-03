@@ -31,6 +31,7 @@ public class Album {
     private Long id;
     private String nombre;
     private String descripcion;
+    private String imagen;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "album")
     @JsonManagedReference
