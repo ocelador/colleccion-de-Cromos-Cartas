@@ -13,6 +13,10 @@
     "test:unit:dev": "cypress open --component"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.0",
+    "sass": "^1.77.8",
+    "sass-loader": "^16.0.1",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },
