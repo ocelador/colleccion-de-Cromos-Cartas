@@ -3,25 +3,43 @@
         <div class="collecciones-container text-center p-4 rounded shadow">
             <h1>Collecciones</h1>
             <div class="d-flex justify-content-around flex-wrap">
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" /> 
-                <p></p>
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
+                <div v-for="album in albums" :key="album.id" class="imagen-container">
+                    <img :src="getImageUrl(album.imagen)" :alt="album.nombre" class="imagen img-fluid m-2" @error="onImageError(album)" />
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+const albums = ref([]);
+
+const getAllAlbums = () => {
+    axios.get('/api/albums', { headers: { 'Cache-Control': 'no-cache' } })
+        .then(response => {
+            console.log(response.data); // Depuración: Verifica la respuesta de la API
+            albums.value = response.data;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+};
+
+const getImageUrl = (imagePath) => {
+    // Construye la URL completa de la imagen desde la carpeta public
+    return `/@fs${imagePath}`;
+};
+
+const onImageError = (album) => {
+    console.error(`Error loading image for album: ${album.nombre}`);
+};
+
+onMounted(() => {
+    getAllAlbums();
+});
 </script>
 
 <style scoped>
@@ -30,10 +48,16 @@
     background-color: #f8f9fa;
 }
 
-.imagen {
+.imagen-container {
     margin: 15px;
     width: 250px; 
     height: auto; 
+}
+
+.imagen {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .imagen:hover {
@@ -50,7 +74,7 @@
         font-size: 20px;
     }
 
-    .imagen {
+    .imagen-container {
         width: 100px; 
     }
 }
