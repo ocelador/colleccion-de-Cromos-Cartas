@@ -29,8 +29,9 @@ const getAllAlbums = () => {
 };
 
 const getImageUrl = (imagePath) => {
-    // Construye la URL completa de la imagen desde la carpeta public
-    return `/@fs${imagePath}`;
+    // Añade un parámetro de consulta único para evitar el caché
+    const timestamp = new Date().getTime();
+    return `${imagePath}?t=${timestamp}`;
 };
 
 const onImageError = (album) => {
