@@ -1,57 +1,87 @@
 <template>
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="collecciones-container text-center p-4 rounded shadow">
-            <h1>Collecciones</h1>
-            <div class="d-flex justify-content-around flex-wrap">
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" /> 
-                <p></p>
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-                <img src="@/assets/liga.png" alt="Colleccion" class="imagen img-fluid m-2" />
-            </div>
+    <div class="container d-flex flex-column align-items-center vh-100">
+      <!-- Contenedor principal para el título y las tarjetas -->
+      <div class="collecciones-container p-4 rounded shadow text-center">
+        <h1>Colecciones</h1>
+        <!-- Fila que contiene las tarjetas -->
+        <div class="row justify-content-center mt-4">
+          <div v-for="album in albums" :key="album.id" class="imagen-container" @click="goToCromos(album.id)">
+            <img :src="getImageUrl(album.imagen)" :alt="album.nombre" class="imagen img-fluid m-2" @error="onImageError(album)" />
+          </div>
+          <!-- Botón para añadir colección -->
+          <div class="imagen-container">
+            <button @click="goToAlbumes" class="btn btn-primary mt-3">Añadir Colección</button>
+          </div>
         </div>
+      </div>
     </div>
-</template>
-
-<script setup>
-</script>
-
-<style scoped>
-.collecciones-container {
-    text-align: center;
+  </template>
+  
+  <script setup>
+  import { ref, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
+  import axios from 'axios';
+  
+  const albums = ref([]);
+  const router = useRouter();
+  
+  const getAllAlbums = () => {
+    axios.get('/api/albums', { headers: { 'Cache-Control': 'no-cache' } })
+      .then(response => {
+        console.log(response.data); // Depuración: Verifica la respuesta de la API
+        albums.value = response.data;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+  
+  const getImageUrl = (imagePath) => {
+    // Añade un parámetro de consulta único para evitar el caché
+    const timestamp = new Date().getTime();
+    return `${imagePath}?t=${timestamp}`;
+  };
+  
+  const onImageError = (album) => {
+    console.error(`Error loading image for album: ${album.nombre}`);
+  };
+  
+  const goToCromos = (albumId) => {
+    router.push({ name: 'Cromos', params: { albumId } });
+  };
+  
+  const goToAlbumes = () => {
+    router.push({ name: 'Albumes' });
+  };
+  
+  onMounted(() => {
+    getAllAlbums();
+  });
+  </script>
+  
+  <style scoped>
+  .collecciones-container {
     background-color: #f8f9fa;
-}
-
-.imagen {
-    margin: 15px;
-    width: 250px; 
-    height: auto; 
-}
-
-.imagen:hover {
-    transform: scale(1.15);
-    filter: brightness(0.15); 
-}
-
-@media (max-width: 768px) {
-    .collecciones-container {
-        padding-bottom: 15vh;
-    }
-
-    .collecciones-container h1 {
-        font-size: 20px;
-    }
-
-    .imagen {
-        width: 100px; 
-    }
-}
-</style>
+  }
+  
+  .imagen-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer; /* Añadir cursor de puntero para indicar que es clicable */
+  }
+  
+  .imagen {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .btn-primary {
+    background-color: #007bff; /* Color del botón */
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3; /* Color del botón al pasar el ratón */
+  }
+  </style>
