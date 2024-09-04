@@ -13,8 +13,7 @@
             <img 
               :src="getImageUrl(album.id)" 
               :alt="album.nombre" 
-              class="card-img-top" 
-              style="width:100%; height:auto;" />
+              class="card-img-top imagen" />
 
             <div class="card-img-overlay overlay">
               <h4 class="card-title">{{ album.nombre }}</h4>
@@ -109,8 +108,9 @@ onMounted(() => {
 }
 
 .imagen {
-  max-width: 100%;
-  height: auto;
+  width: 200px; /* Establece el ancho estándar */
+  height: 200px; /* Establece la altura estándar */
+  object-fit: cover; /* Asegura que la imagen se ajuste al contenedor */
 }
 
 .btn-primary {

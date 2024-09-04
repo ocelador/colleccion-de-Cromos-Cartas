@@ -1,7 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 </script>
-
 <template>
   <main>
     <!-- Barra de navegación -->
