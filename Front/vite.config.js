@@ -24,8 +24,8 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:8080', // URL de tu servidor backend
         changeOrigin: true,
-        secure: false
-      },
-    },
-  },
+      }
+    }
+  }
 })
+

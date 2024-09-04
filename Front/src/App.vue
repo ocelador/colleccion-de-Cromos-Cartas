@@ -1,123 +1,81 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
-import img from '@/assets/img.jpeg'; // Importando la imagen
 </script>
-
 <template>
-  <div id="app" class="app-container">
-    <!-- Main Content -->
-    <div class="container-fluid">
-      <div class="row justify-content-center"> <!-- Centra la fila -->
-        <div class="col-12 col-md-2"> <!-- Ocupa 2 columnas en pantallas medianas hacia arriba -->
-          <div class="card" style="width: 100%; position: relative; overflow: hidden;"> <!-- El ancho de la tarjeta ocupa el 100% de su contenedor -->
-            <img class="card-img-top" :src="img" alt="Card image" style="width: 100%; height: auto;">
-            <div class="card-img-overlay">
-              <h4 class="card-title">John Doe</h4>
-              <p class="card-text">Some example text.</p>
-              <a href="#" class="btn btn-primary">See Profile</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-2"> <!-- Ocupa 2 columnas en pantallas medianas hacia arriba -->
-          <div class="card" style="width: 100%; position: relative; overflow: hidden;"> <!-- El ancho de la tarjeta ocupa el 100% de su contenedor -->
-            <img class="card-img-top" :src="img" alt="Card image" style="width: 100%; height: auto;">
-            <div class="card-img-overlay">
-              <h4 class="card-title">John Doe</h4>
-              <p class="card-text">Some example text.</p>
-              <a href="#" class="btn btn-primary">See Profile</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-2"> <!-- Ocupa 6 columnas en pantallas medianas hacia arriba -->
-          <div class="card" style="width: 100%; position: relative; overflow: hidden;"> <!-- El ancho de la tarjeta ocupa el 100% de su contenedor -->
-            <img class="card-img-top" :src="img" alt="Card image" style="width: 100%; height: auto;">
-            <div class="card-img-overlay">
-              <h4 class="card-title">John Doe</h4>
-              <p class="card-text">Some example text.</p>
-              <a href="#" class="btn btn-primary">See Profile</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-2"> <!-- Ocupa 6 columnas en pantallas medianas hacia arriba -->
-          <div class="card" style="width: 100%; position: relative; overflow: hidden;"> <!-- El ancho de la tarjeta ocupa el 100% de su contenedor -->
-            <img class="card-img-top" :src="img" alt="Card image" style="width: 100%; height: auto;">
-            <div class="card-img-overlay">
-              <h4 class="card-title">John Doe</h4>
-              <p class="card-text">Some example text.</p>
-              <a href="#" class="btn btn-primary">See Profile</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-2"> <!-- Ocupa 6 columnas en pantallas medianas hacia arriba -->
-          <div class="card" style="width: 100%; position: relative; overflow: hidden;"> <!-- El ancho de la tarjeta ocupa el 100% de su contenedor -->
-            <img class="card-img-top" :src="img" alt="Card image" style="width: 100%; height: auto;">
-            <div class="card-img-overlay">
-              <h4 class="card-title">John Doe</h4>
-              <p class="card-text">Some example text.</p>
-              <a href="#" class="btn btn-primary">See Profile</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-2"> <!-- Ocupa 6 columnas en pantallas medianas hacia arriba -->
-          <div class="card" style="width: 100%; position: relative; overflow: hidden;"> <!-- El ancho de la tarjeta ocupa el 100% de su contenedor -->
-            <img class="card-img-top" :src="img" alt="Card image" style="width: 100%; height: auto;">
-            <div class="card-img-overlay">
-              <h4 class="card-title">John Doe</h4>
-              <p class="card-text">Some example text.</p>
-              <a href="#" class="btn btn-primary">See Profile</a>
-            </div>
-          </div>
+  <main>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <RouterLink class="navbar-brand" to="/">MundoCromo</RouterLink>
+        <button 
+          class="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarNav" 
+          aria-controls="navbarNav" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" to="/">Inicio</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" to="/collecciones">Colecciones</RouterLink>
+            </li>
+          </ul>
         </div>
       </div>
-    </div>
-  </div>
+    </nav>
+    
+    <!-- Contenido dinámico -->
+    <RouterView />
+  </main>
 </template>
 
 <style scoped>
-
-
-
-.header-custom {
-  display: flex;
-  flex-wrap: nowrap;
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.header-custom .nav-item {
-  margin-right: 15px;
+main {
+  padding: 20px;
 }
 
-.header-custom .nav-item:last-child {
-  margin-right: 0;
+.navbar-brand {
+  font-weight: bold;
+  color: #007bff; /* Color personalizado para la marca */
 }
 
-.card-img-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro con opacidad para mejorar el contraste */
-  color: #fff;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.navbar-nav .nav-link {
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
 }
 
-.card:hover .card-img-overlay {
-  opacity: 1;
+.navbar-nav .nav-link:hover {
+  color: #0056b3; /* Cambia el color del enlace al pasar el ratón */
 }
-#app {
-display: block;
+
+.navbar-nav .nav-link.active {
+  color: #007bff; /* Color del enlace activo */
+  font-weight: bold;
 }
-#app.app-container{
-  width: 100% !important; /* Asegura que el contenedor ocupe el 100% del ancho */
-  padding: 0 !important; /* Ajusta el padding si es necesario */
-  margin: 0 auto !important; /* Centra el contenido si es necesario */
+
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler-icon {
+  background-color: #007bff; /* Color personalizado del icono */
+}
+
+.navbar-light .navbar-toggler:focus {
+  box-shadow: none;
 }
 </style>
-
-
