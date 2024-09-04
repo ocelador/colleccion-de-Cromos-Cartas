@@ -11,10 +11,12 @@
     </div>
     <div class="form-group">
       <label for="file">Imagen:</label>
-      <input type="file" @change="onFileChange" class="form-control" id="file">
+      <input type="file" @change="onFileChange" class="form-control" id="file" :disabled="isAlbumSelected">
     </div>
-    <button @click="createAlbum" class="btn btn-primary">Agregar Álbum</button>
-    <button @click="updateAlbum" class="btn btn-warning">Actualizar Álbum</button>
+    <button @click="createAlbum" class="btn btn-primary" :disabled="isAlbumSelected">Agregar Álbum</button>
+    <button @click="updateAlbum" class="btn btn-warning" :disabled="!isAlbumSelected">Actualizar Álbum</button>
+    <button @click="resetAlbum" class="btn btn-danger">Limpiar</button>
+    <button @click="goToCollecciones" class="btn btn-secondary">Volver</button>
 
     <h2>Lista de Álbumes</h2>
     <ul class="list-group">
@@ -45,6 +47,11 @@ export default {
       file: null
     };
   },
+  computed: {
+    isAlbumSelected() {
+      return this.album.id !== null;
+    }
+  },
   methods: {
     getAllAlbums() {
       axios.get('/api/albums', { headers: { 'Cache-Control': 'no-cache' } })
@@ -59,7 +66,6 @@ export default {
       const formData = new FormData();
       formData.append('nombre', this.album.nombre);
       formData.append('descripcion', this.album.descripcion);
-      formData.append('anio', this.album.anio);
       formData.append('file', this.file);
 
       axios.post('/api/albums/upload', formData, { headers: { 'Cache-Control': 'no-cache', 'Content-Type': 'multipart/form-data' } })
@@ -104,6 +110,9 @@ export default {
     },
     onFileChange(event) {
       this.file = event.target.files[0];
+    },
+    goToCollecciones() {
+      this.$router.push({ name: 'Collecciones' });
     }
   },
   mounted() {

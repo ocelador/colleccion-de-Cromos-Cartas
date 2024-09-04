@@ -26,12 +26,6 @@ import { RouterLink, RouterView } from 'vue-router';
             <li class="nav-item">
               <RouterLink class="nav-link" active-class="active" to="/collecciones">Colecciones</RouterLink>
             </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link" active-class="active" to="/albumes">Álbumes</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link" active-class="active" to="/cromos">Cromos</RouterLink>
-            </li>
           </ul>
         </div>
       </div>

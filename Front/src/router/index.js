@@ -16,9 +16,10 @@ const routes = [
     component: Collecciones,
   },
   {
-    path: "/cromos",
+    path: "/albumes/:albumId/cromos",
     name: "Cromos",
     component: Cromos,
+    props: true,
   },
   {
     path: "/albumes",

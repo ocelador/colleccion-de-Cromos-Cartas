@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import es.cic.curso.coleccionCartas.exception.ActualizarException;
 import es.cic.curso.coleccionCartas.model.Album;
+import es.cic.curso.coleccionCartas.model.Cromos;
 import es.cic.curso.coleccionCartas.service.AlbumService;
 
 @RestController
@@ -38,6 +42,24 @@ public class AlbumController {
             throw new ActualizarException("No se ha encontrado el album con id " + id);
         }
         return albumes;
+    }
+
+    @GetMapping("/{id}/cromos")
+    public List<Cromos> getCromosByAlbumId(@PathVariable Long id) {
+        List<Cromos> cromos = albumService.getCromosByAlbumId(id);
+        return cromos;
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<Resource> getAlbumImage(@PathVariable Long id) {
+        try {
+            Resource resource = albumService.getAlbumImage(id);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (IOException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
@@ -76,5 +98,4 @@ public class AlbumController {
     public void deleteAlbumById(@PathVariable Long id) {
         albumService.deleteById(id);
     }
-
 }

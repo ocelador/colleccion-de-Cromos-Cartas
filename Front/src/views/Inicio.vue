@@ -43,6 +43,7 @@
   }
   
   @media (max-width: 768px) {
+
     .inicio-container {
       padding-bottom: 15vh;
     }
