@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.File;
+import java.io.FileWriter;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,8 @@ public class AlbumControllerIT {
 
     @Test
     public void testGetAllAlbums() throws Exception {
+
+        // Given
         Album album1 = new Album();
         album1.setNombre("Album 1");
         albumRepository.save(album1);
@@ -55,6 +58,7 @@ public class AlbumControllerIT {
         album2.setNombre("Album 2");
         albumRepository.save(album2);
 
+        // Then
         mockMvc.perform(get("/api/albums"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2))
@@ -64,10 +68,13 @@ public class AlbumControllerIT {
 
     @Test
     public void testGetAlbumById() throws Exception {
+
+        // Given
         Album album = new Album();
         album.setNombre("Album Test");
         album = albumRepository.save(album);
 
+        // Then
         mockMvc.perform(get("/api/albums/{id}", album.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Album Test"));
@@ -75,12 +82,22 @@ public class AlbumControllerIT {
 
     @Test
     public void testGetAlbumImage() throws Exception {
+
+        // Given
+        File tempFile = new File(System.getProperty("java.io.tmpdir"), "image.jpg");
+        tempFile.deleteOnExit();
+
+        try (FileWriter writer = new FileWriter(tempFile)) {
+            writer.write("test content");
+        }
+
         Album album = new Album();
         album.setNombre("Album con Imagen");
         album.setDescripcion("Descripción del Album");
-        album.setImagen("images/image.jpg");
+        album.setImagen(tempFile.getAbsolutePath());
         album = albumRepository.save(album);
 
+        // Then
         mockMvc.perform(get("/api/albums/" + album.getId() + "/image"))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Disposition", "attachment; filename=\"image.jpg\""));
@@ -88,9 +105,12 @@ public class AlbumControllerIT {
 
     @Test
     public void testCreateAlbum() throws Exception {
+
+        // Given
         Album album = new Album();
         album.setNombre("Nuevo Album");
 
+        // Then
         mockMvc.perform(post("/api/albums")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(album)))
@@ -100,9 +120,12 @@ public class AlbumControllerIT {
 
     @Test
     public void testCrearAlbumWithImage() throws Exception {
+
+        // Given
         MockMultipartFile file = new MockMultipartFile("file", "image.jpg", "image/jpeg",
                 "test image content".getBytes());
 
+        // When
         mockMvc.perform(multipart("/api/albums/upload")
                 .file(file)
                 .param("nombre", "Album con Imagen")
@@ -111,7 +134,7 @@ public class AlbumControllerIT {
                 .andExpect(jsonPath("$.nombre").value("Album con Imagen"))
                 .andExpect(jsonPath("$.descripcion").value("Descripción del Album"));
 
-        File savedFile = new File("/home/usuario/images/image.jpg");
+        File savedFile = new File("images/image.jpg");
         if (savedFile.exists()) {
             savedFile.delete();
         }
@@ -119,12 +142,15 @@ public class AlbumControllerIT {
 
     @Test
     public void testUpdateAlbumById() throws Exception {
+
+        // Given
         Album album = new Album();
         album.setNombre("Album Original");
         album = albumRepository.save(album);
 
         album.setNombre("Album Actualizado");
 
+        // Then
         mockMvc.perform(put("/api/albums/{id}", album.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(album)))
@@ -134,10 +160,13 @@ public class AlbumControllerIT {
 
     @Test
     public void testDeleteAlbumById() throws Exception {
+
+        // Given
         Album album = new Album();
         album.setNombre("Album a Eliminar");
         album = albumRepository.save(album);
 
+        // Then
         mockMvc.perform(delete("/api/albums/{id}", album.getId()))
                 .andExpect(status().isOk());
     }
