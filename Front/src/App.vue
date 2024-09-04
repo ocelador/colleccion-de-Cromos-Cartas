@@ -4,12 +4,40 @@ import { RouterLink, RouterView } from 'vue-router';
 
 <template>
   <main>
-    <nav>
-      <RouterLink active-class="active" to="/">Inicio</RouterLink>
-      <RouterLink active-class="active" to="/collecciones">Colecciones</RouterLink>
-      <RouterLink active-class="active" to="/albumes">Álbumes</RouterLink>
-      <RouterLink active-class="active" to="/cromos">Cromos</RouterLink>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <RouterLink class="navbar-brand" to="/">MundoCromo</RouterLink>
+        <button 
+          class="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarNav" 
+          aria-controls="navbarNav" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" to="/">Inicio</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" to="/collecciones">Colecciones</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" to="/albumes">Álbumes</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" to="/cromos">Cromos</RouterLink>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
+    
+    <!-- Contenido dinámico -->
     <RouterView />
   </main>
 </template>
@@ -23,40 +51,39 @@ html, body {
 }
 
 main {
-  padding-left: 25px;
-  padding-right: 25px;
-  padding-top: 20px; /* Añado un padding-top para que no esté pegado al borde superior */
+  padding: 20px;
 }
 
-nav {
-  border-bottom: 1px solid black;
-  text-align: center;
-  margin-bottom: 20px; /* Añade margen en la parte inferior del nav */
-}
-
-a {
-  text-decoration: none;
-  color: #333;
-  padding: 8px 16px;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s; /* Añadido color para una transición más suave */
-  margin-right: 15px; /* Ajusta el margen para que no sea tan grande */
-  display: inline-block;
-  font-weight: bold; 
-  color: lightblue;
-}
-
-a:hover {
-  background-color: rgba(33, 245, 245, 0.5);
-  color: #000; /* Cambia el color del texto al hacer hover para más contraste */
-}
-
-.active {
+.navbar-brand {
   font-weight: bold;
-  color: red;
+  color: #007bff; /* Color personalizado para la marca */
 }
 
-.active:hover {
-  background-color: #ffe6e6;
+.navbar-nav .nav-link {
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #0056b3; /* Cambia el color del enlace al pasar el ratón */
+}
+
+.navbar-nav .nav-link.active {
+  color: #007bff; /* Color del enlace activo */
+  font-weight: bold;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler-icon {
+  background-color: #007bff; /* Color personalizado del icono */
+}
+
+.navbar-light .navbar-toggler:focus {
+  box-shadow: none;
 }
 </style>
+

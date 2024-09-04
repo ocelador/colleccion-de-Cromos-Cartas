@@ -1,93 +1,60 @@
 <template>
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="inicio-container text-center p-4 rounded shadow">
-            <h1>{{ message }}</h1>
-            <div class="carousel-container">
-                <div class="carousel">
-                    <div v-for="(image, index) in images" :key="index" class="carousel-item" :class="{ active: index === activeIndex }">
-                        <img :src="image" alt="Imagen" class="carousel-image" />
-                    </div>
-                </div>
+    <div class="container justify-content-center align-items-center vh-100">
+      <div class="inicio-container text-center p-4 rounded w-100">
+        <h1 class="my-4">{{ message }}</h1>
+        <div id="carouselExampleRide" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+          <div class="carousel-inner">
+            <div v-for="(image, index) in images" :key="index" class="carousel-item" :class="{ active: index === 0 }">
+              <img :src="image" class="d-block w-100 img-custom" alt="Imagen" />
             </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
+      </div>
     </div>
-</template>
-
-<script setup>
-import { ref, onMounted } from 'vue';
-
-// Importa las imágenes
-import liga2 from '@/assets/liga2.jpg';
-import pokemon from '@/assets/pokemon.jpg';
-import magic from '@/assets/magic.jpg';
-
-const message = ref('Colección de Cromos/Cartas');
-const images = ref([liga2, pokemon, magic]);
-const activeIndex = ref(0);
-
-const rotateImages = () => {
-    setInterval(() => {
-        activeIndex.value = (activeIndex.value + 1) % images.value.length;
-    }, 3000); // Cambia de imagen cada 3 segundos
-};
-
-onMounted(() => {
-    rotateImages();
-});
-</script>
-
-<style scoped>
-.inicio-container {
+  </template>
+  
+  
+  <script setup>
+  import { ref } from 'vue';
+  
+  // Importa las imágenes
+  import liga2 from '@/assets/cromos1.jpeg';
+  import pokemon from '@/assets/cromos2.jpeg';
+  import magic from '@/assets/cromos3.jpeg';
+  import futbol from '@/assets/cromos4.jpeg';
+  
+  const message = ref('MundoCromo');
+  const images = ref([liga2, pokemon, magic,futbol]);
+  </script>
+  
+  <style scoped>
+  .inicio-container {
     text-align: center;
-    background-color: #f8f9fa;
-}
+    background-color: none;
 
-.carousel-container {
-    margin-top: 20px;
-    width: 600px;
-    height: 500px;
-    overflow: hidden;
-    position: relative;
-    margin-left: 33vw;
-}
-
-.carousel {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-}
-
-.carousel-item {
-    min-width: 100%;
-    transition: opacity 0.5s ease-in-out;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.carousel-item.active {
-    opacity: 1;
-    position: relative;
-}
-
-.carousel-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-@media (max-width: 768px) {
+  }
+  
+  @media (max-width: 768px) {
     .inicio-container {
-        padding-bottom: 15vh;
+      padding-bottom: 15vh;
     }
-
+  
     .inicio-container h1 {
-        font-size: 20px;
+      font-size: 20px;
     }
-
-    .carousel-container {
-        width: 250px;
-        height: 150px;
+    .img-custom {
+    width: 100%;
+    height: auto; /* Mantiene la relación de aspecto de la imagen */
+    object-fit: cover; /* Ajusta la imagen para llenar el contenedor sin distorsión */
     }
-}
-</style>
+  }
+  </style>
+  
