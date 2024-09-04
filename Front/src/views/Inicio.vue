@@ -48,7 +48,7 @@ onMounted(() => {
     height: 500px;
     overflow: hidden;
     position: relative;
-    margin-left: 33vw;
+    margin: 0 auto;
 }
 
 .carousel {
