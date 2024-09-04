@@ -15,6 +15,7 @@
     </div>
     <button @click="createAlbum" class="btn btn-primary">Agregar Álbum</button>
     <button @click="updateAlbum" class="btn btn-warning">Actualizar Álbum</button>
+    <button @click="goToCollecciones" class="btn btn-secondary">Volver</button>
 
     <h2>Lista de Álbumes</h2>
     <ul class="list-group">
@@ -104,6 +105,9 @@ export default {
     },
     onFileChange(event) {
       this.file = event.target.files[0];
+    },
+    goToCollecciones() {
+      this.$router.push({ name: 'Collecciones' });
     }
   },
   mounted() {

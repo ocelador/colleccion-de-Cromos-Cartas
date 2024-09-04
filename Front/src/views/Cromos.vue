@@ -23,6 +23,7 @@
     </div>
     <button @click="createCromo" class="btn btn-primary">Agregar Cromo</button>
     <button @click="updateCromo" class="btn btn-warning">Actualizar Cromo</button>
+    <button @click="goToCollecciones" class="btn btn-secondary">Volver</button>
 
     <h2>Lista de Cromos</h2>
     <ul class="list-group">
@@ -39,6 +40,7 @@
 
 <script>
 import axios from 'axios';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
   data() {
@@ -50,13 +52,15 @@ export default {
         descripcion: '',
         anio: null,
         valor: null,
-        rareza: ''
+        rareza: '',
+        album: null // Añadir album al objeto cromo
       }
     };
   },
   methods: {
     getAllCromos() {
-      axios.get('/api/cromos', { headers: { 'Cache-Control': 'no-cache' } })
+      const albumId = this.$route.params.albumId;
+      axios.get(`/api/albums/${albumId}/cromos`, { headers: { 'Cache-Control': 'no-cache' } })
         .then(response => {
           this.cromos = response.data;
         })
@@ -65,29 +69,33 @@ export default {
         });
     },
     createCromo() {
+      const albumId = this.$route.params.albumId;
+      this.cromo.album = { id: albumId }; // Asignar album al cromo
       axios.post('/api/cromos', this.cromo, { headers: { 'Cache-Control': 'no-cache' } })
         .then(response => {
-          this.getAllCromos();
+          this.getAllCromos(); // Actualiza la lista de cromos
           this.resetCromo();
         })
         .catch(error => {
-          console.error(error);
+          console.error('Error al crear el cromo:', error);
         });
     },
     updateCromo() {
+      const albumId = this.$route.params.albumId;
+      this.cromo.album = { id: albumId }; // Asignar album al cromo
       axios.put(`/api/cromos/${this.cromo.id}`, this.cromo, { headers: { 'Cache-Control': 'no-cache' } })
         .then(response => {
-          this.getAllCromos();
+          this.getAllCromos(); // Actualiza la lista de cromos
           this.resetCromo();
         })
         .catch(error => {
-          console.error(error);
+          console.error('Error al actualizar el cromo:', error);
         });
     },
     deleteCromo() {
       axios.delete(`/api/cromos/${this.cromo.id}`, { headers: { 'Cache-Control': 'no-cache' } })
         .then(response => {
-          this.getAllCromos();
+          this.getAllCromos(); // Actualiza la lista de cromos
           this.resetCromo();
         })
         .catch(error => {
@@ -97,7 +105,7 @@ export default {
     deleteCromoById(id) {
       axios.delete(`/api/cromos/${id}`, { headers: { 'Cache-Control': 'no-cache' } })
         .then(response => {
-          this.getAllCromos();
+          this.getAllCromos(); // Actualiza la lista de cromos
         })
         .catch(error => {
           console.error(error);
@@ -113,8 +121,12 @@ export default {
         descripcion: '',
         anio: null,
         valor: null,
-        rareza: ''
+        rareza: '',
+        album: null // Reiniciar album
       };
+    },
+    goToCollecciones() {
+      this.$router.push({ name: 'Collecciones' });
     }
   },
   mounted() {
