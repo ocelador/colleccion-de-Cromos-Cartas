@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,6 +71,19 @@ public class AlbumControllerIT {
         mockMvc.perform(get("/api/albums/{id}", album.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Album Test"));
+    }
+
+    @Test
+    public void testGetAlbumImage() throws Exception {
+        Album album = new Album();
+        album.setNombre("Album con Imagen");
+        album.setDescripcion("Descripción del Album");
+        album.setImagen("images/image.jpg");
+        album = albumRepository.save(album);
+
+        mockMvc.perform(get("/api/albums/" + album.getId() + "/image"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Disposition", "attachment; filename=\"image.jpg\""));
     }
 
     @Test
