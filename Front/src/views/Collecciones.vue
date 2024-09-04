@@ -8,7 +8,7 @@
           <div v-for="album in albums" :key="album.id" class="imagen-container">
             <p>este</p>
             <img :src="getImageUrl(album.imagen)" :alt="album.nombre" class="imagen img-fluid m-2" @error="onImageError(album)" />
-          </div> <!-- Aquí se cierra el div -->
+          </div>
         </div>
       </div>
     </div>
