@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,8 +23,6 @@ public class AlbumService {
 
     @Autowired
     private AlbumRepository albumRepository;
-
-    private final Path rootLocation = Paths.get("/home/usuario/images");
 
     @Transactional(readOnly = true)
     public List<Album> findAll() {
@@ -43,8 +43,18 @@ public class AlbumService {
         return null;
     }
 
-    public Path getImagePath(Long id) {
-        return rootLocation.resolve(id + ".jpg").normalize().toAbsolutePath();
+    public Resource getAlbumImage(Long albumId) throws IOException {
+        Album album = albumRepository.findById(albumId)
+                .orElseThrow(() -> new IllegalArgumentException("Album not found"));
+
+        Path filePath = Paths.get(album.getImagen());
+        Resource resource = new UrlResource(filePath.toUri());
+
+        if (resource.exists() || resource.isReadable()) {
+            return resource;
+        } else {
+            throw new IOException("Could not read file: " + filePath);
+        }
     }
 
     public Album save(Album album) {
@@ -56,15 +66,14 @@ public class AlbumService {
     }
 
     public Album saveAlbumWithImage(Album album, MultipartFile file) throws IOException {
-
         if (!file.isEmpty()) {
-            String uploadDir = "/home/usuario/images/";
+            String uploadDir = Paths.get("images").toAbsolutePath().toString();
             File uploadDirFile = new File(uploadDir);
             if (!uploadDirFile.exists()) {
                 uploadDirFile.mkdirs();
             }
 
-            String filePath = uploadDir + file.getOriginalFilename();
+            String filePath = uploadDir + File.separator + file.getOriginalFilename();
             File dest = new File(filePath);
             file.transferTo(dest);
 
