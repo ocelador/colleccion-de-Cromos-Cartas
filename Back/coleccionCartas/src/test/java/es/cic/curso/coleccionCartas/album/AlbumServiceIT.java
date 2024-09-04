@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -102,9 +106,10 @@ public class AlbumServiceIT {
         Album result = albumService.saveAlbumWithImage(album, file);
 
         assertNotNull(result);
-        assertEquals("/home/usuario/images/image.jpg", result.getImagen());
+        assertEquals(Paths.get("images").toAbsolutePath().toString() + File.separator + "image.jpg",
+                result.getImagen());
 
-        File savedFile = new File("/home/usuario/images/image.jpg");
+        File savedFile = new File(result.getImagen());
         if (savedFile.exists()) {
             savedFile.delete();
         }
@@ -112,7 +117,6 @@ public class AlbumServiceIT {
 
     @Test
     public void testSaveAlbumWithImage_EmptyFile() throws IOException {
-
         Album album = albumService.findById(1L);
 
         MultipartFile file = new MockMultipartFile("file", "", "image/jpeg", new byte[0]);
@@ -120,6 +124,24 @@ public class AlbumServiceIT {
         Album result = albumService.saveAlbumWithImage(album, file);
 
         assertNotNull(result);
-        assertNull(result.getImagen());
+        assertEquals(album.getImagen(), result.getImagen());
+    }
+
+    @Test
+    public void testGetAlbumImage() throws IOException {
+        Album album = albumService.findById(1L);
+
+        Path tempFile = Files.createTempFile("test-image", ".jpg");
+        Files.write(tempFile, "test image content".getBytes());
+
+        album.setImagen(tempFile.toString());
+        albumService.save(album);
+
+        Resource resource = albumService.getAlbumImage(1L);
+
+        assertNotNull(resource);
+        assertEquals(tempFile.toString(), resource.getFile().getAbsolutePath());
+
+        Files.deleteIfExists(tempFile);
     }
 }
