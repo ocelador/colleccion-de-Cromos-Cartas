@@ -1,24 +1,30 @@
-import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import Collecciones from '../views/Collecciones.vue';
+import Cromos from '../views/Cromos.vue';
+import Albumes from '../views/Albumes.vue';
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    vue(),
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+const routes = [
+  {
+    path: '/',
+    name: 'Collecciones',
+    component: Collecciones
   },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8080', // URL de tu servidor backend
-        changeOrigin: true,
-        secure: false
-      },
-    },
+  {
+    path: '/albumes',
+    name: 'Albumes',
+    component: Albumes
   },
-})
+  {
+    path: '/albumes/:albumId/cromos',
+    name: 'Cromos',
+    component: Cromos,
+    props: true
+  }
+];
+
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes
+});
+
+export default router;

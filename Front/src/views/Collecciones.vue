@@ -1,14 +1,11 @@
 <template>
     <div class="container d-flex flex-column align-items-center vh-100">
-      <!-- Contenedor principal para el título y las tarjetas -->
       <div class="collecciones-container p-4 rounded shadow text-center">
         <h1>Colecciones</h1>
-        <!-- Fila que contiene las tarjetas -->
         <div class="row justify-content-center mt-4">
           <div v-for="album in albums" :key="album.id" class="imagen-container" @click="goToCromos(album.id)">
             <img :src="getImageUrl(album.imagen)" :alt="album.nombre" class="imagen img-fluid m-2" @error="onImageError(album)" />
           </div>
-          <!-- Botón para añadir colección -->
           <div class="imagen-container">
             <button @click="goToAlbumes" class="btn btn-primary mt-3">Añadir Colección</button>
           </div>
@@ -28,7 +25,6 @@
   const getAllAlbums = () => {
     axios.get('/api/albums', { headers: { 'Cache-Control': 'no-cache' } })
       .then(response => {
-        console.log(response.data); // Depuración: Verifica la respuesta de la API
         albums.value = response.data;
       })
       .catch(error => {
@@ -37,7 +33,6 @@
   };
   
   const getImageUrl = (imagePath) => {
-    // Añade un parámetro de consulta único para evitar el caché
     const timestamp = new Date().getTime();
     return `${imagePath}?t=${timestamp}`;
   };
@@ -68,7 +63,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer; /* Añadir cursor de puntero para indicar que es clicable */
+    cursor: pointer;
   }
   
   .imagen {
@@ -77,11 +72,11 @@
   }
   
   .btn-primary {
-    background-color: #007bff; /* Color del botón */
+    background-color: #007bff;
     border: none;
   }
   
   .btn-primary:hover {
-    background-color: #0056b3; /* Color del botón al pasar el ratón */
+    background-color: #0056b3;
   }
   </style>
