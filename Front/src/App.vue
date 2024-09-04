@@ -6,9 +6,7 @@ import { RouterLink, RouterView } from 'vue-router';
   <main>
     <nav>
       <RouterLink active-class="active" to="/">Inicio</RouterLink>
-      <RouterLink active-class="active" to="/collecciones">Collecciones</RouterLink>
-      <RouterLink active-class="active" to="/albumes">Albumes</RouterLink>
-      <RouterLink active-class="active" to="/cromos">Cromos</RouterLink>
+      <RouterLink active-class="active" to="/collecciones">Colecciones</RouterLink>
     </nav>
     <RouterView />
   </main>
@@ -25,6 +23,13 @@ html, body {
 main {
   padding-left: 25px;
   padding-right: 25px;
+  padding-top: 20px; /* Añado un padding-top para que no esté pegado al borde superior */
+}
+
+nav {
+  border-bottom: 1px solid black;
+  text-align: center;
+  margin-bottom: 20px; /* Añade margen en la parte inferior del nav */
 }
 
 a {
@@ -32,8 +37,8 @@ a {
   color: #333;
   padding: 8px 16px;
   border-radius: 4px;
-  transition: background-color 0.3s;
-  margin-right: 25px;
+  transition: background-color 0.3s, color 0.3s; /* Añadido color para una transición más suave */
+  margin-right: 15px; /* Ajusta el margen para que no sea tan grande */
   display: inline-block;
   font-weight: bold; 
   color: lightblue;
@@ -41,11 +46,7 @@ a {
 
 a:hover {
   background-color: rgba(33, 245, 245, 0.5);
-}
-
-nav {
-  border-bottom: 1px solid black;
-  text-align: center;
+  color: #000; /* Cambia el color del texto al hacer hover para más contraste */
 }
 
 .active {
