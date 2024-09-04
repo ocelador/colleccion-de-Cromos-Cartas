@@ -58,53 +58,73 @@ public class AlbumServiceIT {
     @Test
     public void testFindAll() {
 
+        // When
         List<Album> result = albumService.findAll();
 
+        // Then
         assertNotNull(result);
         assertEquals(2, result.size());
     }
 
     @Test
     public void testFindById() {
+
+        // When
         Album result = albumService.findById(1L);
 
+        // Then
         assertNotNull(result);
         assertEquals(1L, result.getId());
     }
 
     @Test
     public void testFindById_NotFound() {
+
+        // When
         Album result = albumService.findById(Long.MAX_VALUE);
 
+        // Then
         assertNull(result);
     }
 
     @Test
     public void testSave() {
+
+        // Given
         Album album = new Album();
         album.setId(Long.MAX_VALUE);
         album.setNombre("nombreTest");
+
+        // When
         Album result = albumService.save(album);
 
+        // Then
         assertNotNull(result);
     }
 
     @Test
     public void testDeleteById() {
+
+        // When
         albumService.deleteById(1L);
 
+        // Then
         Album result = albumRepository.findById(1L).orElse(null);
         assertNull(result);
     }
 
     @Test
     public void testSaveAlbumWithImage() throws IOException {
+
+        // Given
         Album album = albumService.findById(1L);
 
         MultipartFile file = new MockMultipartFile("file", "image.jpg", "image/jpeg", "test image content".getBytes());
 
+        // When
         Album result = albumService.saveAlbumWithImage(album, file);
 
+        // Then
         assertNotNull(result);
         assertEquals(Paths.get("images").toAbsolutePath().toString() + File.separator + "image.jpg",
                 result.getImagen());
@@ -117,18 +137,24 @@ public class AlbumServiceIT {
 
     @Test
     public void testSaveAlbumWithImage_EmptyFile() throws IOException {
+
+        // Given
         Album album = albumService.findById(1L);
 
         MultipartFile file = new MockMultipartFile("file", "", "image/jpeg", new byte[0]);
 
+        // When
         Album result = albumService.saveAlbumWithImage(album, file);
 
+        // Then
         assertNotNull(result);
         assertEquals(album.getImagen(), result.getImagen());
     }
 
     @Test
     public void testGetAlbumImage() throws IOException {
+
+        // Given
         Album album = albumService.findById(1L);
 
         Path tempFile = Files.createTempFile("test-image", ".jpg");
@@ -137,8 +163,10 @@ public class AlbumServiceIT {
         album.setImagen(tempFile.toString());
         albumService.save(album);
 
+        // When
         Resource resource = albumService.getAlbumImage(1L);
 
+        // Then
         assertNotNull(resource);
         assertEquals(tempFile.toString(), resource.getFile().getAbsolutePath());
 
