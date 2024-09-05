@@ -23,10 +23,10 @@
     </div>
     <button @click="createCromo" class="btn btn-primary">Agregar Cromo</button>
     <button @click="updateCromo" class="btn btn-warning">Actualizar Cromo</button>
+    <button @click="resetCromo" class="btn btn-danger">Limpiar</button>
     <button @click="goToCollecciones" class="btn btn-secondary">Volver</button>
 
     <h2>Lista de Cromos</h2>
-    <!-- Campo de entrada para el filtro con icono de lupa -->
     <div class="form-group special-input">
       <label for="filtroNombre">Filtrar por Nombre:</label>
       <div class="input-group">
@@ -38,7 +38,6 @@
         <input type="text" v-model="filtroNombre" class="form-control" id="filtroNombre" placeholder="Buscar...">
       </div>
     </div>
-    <!-- Desplegable para seleccionar el criterio de filtrado con icono -->
     <div class="form-group special-input">
       <label for="filtroCriterio">Ordenar por:</label>
       <div class="input-group">
@@ -55,23 +54,43 @@
         </select>
       </div>
     </div>
+    <div class="form-group">
+      <label>
+        <input type="checkbox" v-model="mostrarNoAdquiridos">
+        Mostrar cromos no adquiridos
+      </label>
+    </div>
     <ul class="list-group">
-      <li v-for="cromo in filteredCromos" :key="cromo.id" class="list-group-item">
-        {{ cromo.nombre }} - {{ cromo.descripcion }} - {{ cromo.anio }} - {{ cromo.valor }} - {{ cromo.rareza }}
+      <li v-for="cromo in filteredCromos" :key="cromo.id" :class="{'bg-gray': !cromo.adquirido}" class="list-group-item">
+        {{ cromo.nombre }} - {{ cromo.descripcion }} - {{ cromo.anio }} - {{ cromo.valor }} - {{ cromo.rareza }} - {{ cromo.adquirido ? 'Adquirido' : 'No Adquirido' }}
         <div>
-          <button @click="selectCromo(cromo)" class="btn btn-info btn-sm">Seleccionar</button>
-          <button @click="deleteCromoById(cromo.id)" class="btn btn-danger btn-sm">Eliminar</button>
+          <button @click="selectCromo(cromo)" class="btn btn-info btn-sm">{{ cromo.adquirido ? 'Seleccionar' : 'Agregar' }}</button>
+          <button @click="confirmDeleteCromo(cromo.id)" class="btn btn-danger btn-sm">Eliminar</button>
         </div>
       </li>
     </ul>
+    <ConfirmModal
+      v-if="cromoIdToDelete !== null"
+      :visible="cromoIdToDelete !== null"
+      title="Confirmar Eliminación"
+      message="¿Estás seguro de que deseas eliminar este cromo?"
+      :confirmRoute="`/api/cromos/${cromoIdToDelete}`"
+      :cancelRoute="$route.fullPath"
+      :returnRoute="$route.fullPath"
+      @update-cromos="getAllCromos"
+      @close-modal="closeModal"
+    />
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import { useRoute, useRouter } from 'vue-router';
+import ConfirmModal from '@/components/ConfirmModal.vue';
 
 export default {
+  components: {
+    ConfirmModal
+  },
   data() {
     return {
       cromos: [],
@@ -85,7 +104,9 @@ export default {
         album: null // Añadir album al objeto cromo
       },
       filtroNombre: '', // Añadir propiedad reactiva para el filtro
-      filtroCriterio: '' // Añadir propiedad reactiva para el criterio de filtrado
+      filtroCriterio: '', // Añadir propiedad reactiva para el criterio de filtrado
+      mostrarNoAdquiridos: false, // Añadir propiedad reactiva para el checkbox
+      cromoIdToDelete: null // Añadir propiedad reactiva para almacenar el ID del cromo a eliminar
     };
   },
   computed: {
@@ -93,6 +114,10 @@ export default {
       let filtered = this.cromos.filter(cromo => {
         return cromo.nombre.toLowerCase().includes(this.filtroNombre.toLowerCase());
       });
+
+      if (!this.mostrarNoAdquiridos) {
+        filtered = filtered.filter(cromo => cromo.adquirido);
+      }
 
       if (this.filtroCriterio === 'valor') {
         filtered.sort((a, b) => a.valor - b.valor);
@@ -140,24 +165,21 @@ export default {
           console.error('Error al actualizar el cromo:', error);
         });
     },
-    deleteCromo() {
-      axios.delete(`/api/cromos/${this.cromo.id}`, { headers: { 'Cache-Control': 'no-cache' } })
+    deleteCromoById(id, returnRoute) {
+      axios.delete(`/api/cromos/${id}`, { headers: { 'Cache-Control': 'no-cache' } })
         .then(response => {
           this.getAllCromos(); // Actualiza la lista de cromos
-          this.resetCromo();
+          this.$router.push(returnRoute); // Navega de vuelta a la ruta anterior
         })
         .catch(error => {
           console.error(error);
         });
     },
-    deleteCromoById(id) {
-      axios.delete(`/api/cromos/${id}`, { headers: { 'Cache-Control': 'no-cache' } })
-        .then(response => {
-          this.getAllCromos(); // Actualiza la lista de cromos
-        })
-        .catch(error => {
-          console.error(error);
-        });
+    confirmDeleteCromo(id) {
+      this.cromoIdToDelete = id;
+    },
+    closeModal() {
+      this.cromoIdToDelete = null;
     },
     selectCromo(cromo) {
       this.cromo = { ...cromo };
@@ -225,5 +247,9 @@ export default {
 .list-group-item > div {
   display: flex;
   gap: 10px;
+}
+
+.bg-gray {
+  background-color: #f0f0f0;
 }
 </style>
