@@ -65,6 +65,7 @@
         {{ cromo.nombre }} - {{ cromo.descripcion }} - {{ cromo.anio }} - {{ cromo.valor }} - {{ cromo.rareza }} - {{ cromo.adquirido ? 'Adquirido' : 'No Adquirido' }}
         <div>
           <button @click="selectCromo(cromo)" class="btn btn-info btn-sm">{{ cromo.adquirido ? 'Seleccionar' : 'Agregar' }}</button>
+          <button @click="markAsNotAcquired(cromo)" class="btn btn-secondary btn-sm" v-if="cromo.adquirido">No Adquirido</button>
           <button @click="confirmDeleteCromo(cromo.id)" class="btn btn-danger btn-sm">Eliminar</button>
         </div>
       </li>
@@ -183,6 +184,10 @@ export default {
     },
     selectCromo(cromo) {
       this.cromo = { ...cromo };
+    },
+    markAsNotAcquired(cromo) {
+      cromo.adquirido = false; // Marcar el cromo como no adquirido
+      this.updateCromo(cromo); // Actualizar el cromo en el servidor
     },
     resetCromo() {
       this.cromo = {
