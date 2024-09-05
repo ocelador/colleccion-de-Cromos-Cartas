@@ -87,6 +87,44 @@ public class CromosServiceTest {
     }
 
     @Test
+    void testGetCromosByNombre() {
+
+        // Given
+        List<Cromos> cromosList = Arrays.asList(cromo1, cromo2);
+
+        // When
+        when(cromosRepository.findByNombre("Cromo 1")).thenReturn(cromosList);
+
+        List<Cromos> result = cromosService.getCromosByNombre("Cromo 1");
+
+        // Then
+        verify(cromosRepository, times(1)).findByNombre("Cromo 1");
+        assert (result.size() == 2);
+        assert (result.get(0).getNombre().equals("Cromo 1"));
+        assert (result.get(1).getNombre().equals("Cromo 2"));
+    }
+
+    @Test
+    void testGetCromosAdquiridosByAlbumId() {
+
+        // Given
+        cromo1.setAdquirido(true);
+        cromo2.setAdquirido(true);
+        List<Cromos> cromosList = Arrays.asList(cromo1, cromo2);
+
+        // When
+        when(cromosRepository.findByAlbumIdAndAdquirido(1L, true)).thenReturn(cromosList);
+
+        List<Cromos> result = cromosService.getCromosAdquiridosByAlbumId(1L);
+
+        // Then
+        verify(cromosRepository, times(1)).findByAlbumIdAndAdquirido(1L, true);
+        assert (result.size() == 2);
+        assert (result.get(0).getAdquirido());
+        assert (result.get(1).getAdquirido());
+    }
+
+    @Test
     void testSave() {
 
         // When
