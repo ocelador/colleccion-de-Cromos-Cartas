@@ -26,8 +26,37 @@
     <button @click="goToCollecciones" class="btn btn-secondary">Volver</button>
 
     <h2>Lista de Cromos</h2>
+    <!-- Campo de entrada para el filtro con icono de lupa -->
+    <div class="form-group special-input">
+      <label for="filtroNombre">Filtrar por Nombre:</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">
+            <img src="@/assets/lupa.png" alt="Lupa" style="width: 25px; height: 25px;">
+          </span>
+        </div>
+        <input type="text" v-model="filtroNombre" class="form-control" id="filtroNombre" placeholder="Buscar...">
+      </div>
+    </div>
+    <!-- Desplegable para seleccionar el criterio de filtrado con icono -->
+    <div class="form-group special-input">
+      <label for="filtroCriterio">Ordenar por:</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon2">
+            <img src="@/assets/desplegable.png" alt="desplegable" style="width: 25px; height: 25px;">
+          </span>
+        </div>
+        <select v-model="filtroCriterio" class="form-control" id="filtroCriterio">
+          <option value="">Ninguno</option>
+          <option value="nombre">Nombre</option>
+          <option value="valor">Valor</option>
+          <option value="rareza">Rareza</option>
+        </select>
+      </div>
+    </div>
     <ul class="list-group">
-      <li v-for="cromo in cromos" :key="cromo.id" class="list-group-item">
+      <li v-for="cromo in filteredCromos" :key="cromo.id" class="list-group-item">
         {{ cromo.nombre }} - {{ cromo.descripcion }} - {{ cromo.anio }} - {{ cromo.valor }} - {{ cromo.rareza }}
         <div>
           <button @click="selectCromo(cromo)" class="btn btn-info btn-sm">Seleccionar</button>
@@ -54,8 +83,27 @@ export default {
         valor: null,
         rareza: '',
         album: null // Añadir album al objeto cromo
-      }
+      },
+      filtroNombre: '', // Añadir propiedad reactiva para el filtro
+      filtroCriterio: '' // Añadir propiedad reactiva para el criterio de filtrado
     };
+  },
+  computed: {
+    filteredCromos() {
+      let filtered = this.cromos.filter(cromo => {
+        return cromo.nombre.toLowerCase().includes(this.filtroNombre.toLowerCase());
+      });
+
+      if (this.filtroCriterio === 'valor') {
+        filtered.sort((a, b) => a.valor - b.valor);
+      } else if (this.filtroCriterio === 'rareza') {
+        filtered.sort((a, b) => a.rareza.localeCompare(b.rareza));
+      } else if (this.filtroCriterio === 'nombre') {
+        filtered.sort((a, b) => a.nombre.localeCompare(b.nombre));
+      }
+
+      return filtered;
+    }
   },
   methods: {
     getAllCromos() {
@@ -144,6 +192,23 @@ export default {
 
 .form-group {
   margin-bottom: 15px;
+}
+
+.special-input {
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.special-input .input-group-text {
+  background-color: #e9ecef;
+  border: none;
+}
+
+.special-input .form-control {
+  border: none;
+  box-shadow: none;
 }
 
 .btn {
