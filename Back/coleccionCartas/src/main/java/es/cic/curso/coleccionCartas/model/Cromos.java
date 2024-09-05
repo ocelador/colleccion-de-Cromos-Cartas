@@ -29,6 +29,7 @@ public class Cromos {
     private int anio;
     private double valor;
     private String rareza;
+    private Boolean adquirido;
 
     @ManyToOne
     @JoinColumn(name = "album_id")

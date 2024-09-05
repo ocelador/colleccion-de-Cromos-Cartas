@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.cic.curso.coleccionCartas.exception.ActualizarException;
@@ -35,6 +36,16 @@ public class CromosController {
             throw new ActualizarException("No se ha encontrado el cromo con id " + id);
         }
         return cromos;
+    }
+
+    @GetMapping("/by-nombre")
+    public List<Cromos> getCromosByNombre(@RequestParam String nombre) {
+        return cromosService.getCromosByNombre(nombre);
+    }
+
+    @GetMapping("/{albumId}/cromos/adquiridos")
+    public List<Cromos> getCromosAdquiridosByAlbumId(@PathVariable Long albumId) {
+        return cromosService.getCromosAdquiridosByAlbumId(albumId);
     }
 
     @PostMapping

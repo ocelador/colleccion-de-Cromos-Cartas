@@ -10,4 +10,8 @@ import es.cic.curso.coleccionCartas.model.Cromos;
 @Repository
 public interface CromosRepository extends JpaRepository<Cromos, Long> {
     List<Cromos> findByAlbumId(Long albumId);
+
+    List<Cromos> findByNombre(String nombre);
+
+    List<Cromos> findByAlbumIdAndAdquirido(Long albumId, boolean adquirido);
 }
