@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS cromos (
     anio INT,
     valor DECIMAL(10, 2),
     rareza VARCHAR(50),
+    adquirido BOOLEAN,
     album_id BIGINT,
     FOREIGN KEY (album_id) REFERENCES album(id) ON DELETE CASCADE
 );
