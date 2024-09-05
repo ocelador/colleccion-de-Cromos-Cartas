@@ -7,5 +7,4 @@ import es.cic.curso.coleccionCartas.model.Album;
 
 @Repository
 public interface AlbumRepository extends JpaRepository<Album, Long> {
-
 }

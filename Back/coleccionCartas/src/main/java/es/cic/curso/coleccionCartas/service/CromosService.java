@@ -26,6 +26,16 @@ public class CromosService {
         return cromosRepository.findById(id).orElse(null);
     }
 
+    @Transactional(readOnly = true)
+    public List<Cromos> getCromosByNombre(String nombre) {
+        return cromosRepository.findByNombre(nombre);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Cromos> getCromosAdquiridosByAlbumId(Long albumId) {
+        return cromosRepository.findByAlbumIdAndAdquirido(albumId, true);
+    }
+
     public Cromos save(Cromos cromos) {
         return cromosRepository.save(cromos);
     }

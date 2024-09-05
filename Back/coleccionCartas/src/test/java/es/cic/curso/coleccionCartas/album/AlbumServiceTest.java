@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,7 @@ import es.cic.curso.coleccionCartas.model.Cromos;
 import es.cic.curso.coleccionCartas.repository.AlbumRepository;
 import es.cic.curso.coleccionCartas.service.AlbumService;
 
+@SpringBootTest
 public class AlbumServiceTest {
 
     @Mock
