@@ -50,10 +50,13 @@ public class AlbumServiceTest {
     public void testFindAll() {
 
         // Given
-        Album album1 = new Album();
-        album1.setNombre("Album 1");
-        Album album2 = new Album();
-        album2.setNombre("Album 2");
+        Album album1 = Album.builder()
+                .nombre("Album 1")
+                .build();
+
+        Album album2 = Album.builder()
+                .nombre("Album 2")
+                .build();
 
         // When
         when(albumRepository.findAll()).thenReturn(Arrays.asList(album1, album2));
@@ -71,8 +74,9 @@ public class AlbumServiceTest {
     public void testFindById() {
 
         // Gievn
-        Album album = new Album();
-        album.setNombre("Album Test");
+        Album album = Album.builder()
+                .nombre("Album Test")
+                .build();
 
         // When
         when(albumRepository.findById(1L)).thenReturn(Optional.of(album));
@@ -88,10 +92,13 @@ public class AlbumServiceTest {
     public void testGetCromosByAlbumId() {
 
         // Given
-        Album album = new Album();
+
         Cromos cromo1 = new Cromos();
         Cromos cromo2 = new Cromos();
-        album.setCromos(Arrays.asList(cromo1, cromo2));
+
+        Album album = Album.builder()
+                .cromos(Arrays.asList(cromo1, cromo2))
+                .build();
 
         // When
         when(albumRepository.findById(1L)).thenReturn(Optional.of(album));
@@ -107,8 +114,9 @@ public class AlbumServiceTest {
     public void testGetAlbumImage() throws IOException {
 
         // Given
-        Album album = new Album();
-        album.setImagen("test_image.jpg");
+        Album album = Album.builder()
+                .imagen("test_image.jpg")
+                .build();
 
         // When
         when(albumRepository.findById(1L)).thenReturn(Optional.of(album));
@@ -133,8 +141,9 @@ public class AlbumServiceTest {
     public void testSave() {
 
         // Given
-        Album album = new Album();
-        album.setNombre("Album Test");
+        Album album = Album.builder()
+                .nombre("Album Test")
+                .build();
 
         // When
         when(albumRepository.save(any(Album.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -162,8 +171,9 @@ public class AlbumServiceTest {
     public void testSaveAlbumWithImage() throws IOException {
 
         // Given
-        Album album = new Album();
-        album.setNombre("Album Test");
+        Album album = Album.builder()
+                .nombre("Album Test")
+                .build();
 
         MultipartFile file = new MockMultipartFile("file", "image.jpg", "image/jpeg", "test image content".getBytes());
 
@@ -189,9 +199,10 @@ public class AlbumServiceTest {
     public void testSaveAlbumWithImage_EmptyFile() throws IOException {
 
         // Given
-        Album album = new Album();
-        album.setNombre("Album Test");
-        album.setImagen("existing_image.jpg");
+        Album album = Album.builder()
+                .nombre("Album Test")
+                .imagen("existing_image.jpg")
+                .build();
 
         MultipartFile file = new MockMultipartFile("file", "", "image/jpeg", new byte[0]);
 

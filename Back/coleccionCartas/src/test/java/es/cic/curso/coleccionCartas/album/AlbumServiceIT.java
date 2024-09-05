@@ -38,14 +38,19 @@ public class AlbumServiceIT {
 
     @BeforeEach
     public void setUp() {
-        Album album1 = new Album();
-        Album album2 = new Album();
-        album1.setId(1L);
-        album1.setNombre("nombreTest");
-        album1.setCromos(new ArrayList<>());
-        album2.setId(1L);
-        album2.setNombre("nombreTest");
-        album2.setCromos(new ArrayList<>());
+
+        Album album1 = Album.builder()
+                .id(1L)
+                .nombre("nombreTest")
+                .cromos(new ArrayList<>())
+                .build();
+
+        Album album2 = Album.builder()
+                .id(2L)
+                .nombre("nombreTest")
+                .cromos(new ArrayList<>())
+                .build();
+
         albumRepository.save(album1);
         albumRepository.save(album2);
     }

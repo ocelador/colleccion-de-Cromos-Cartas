@@ -50,12 +50,14 @@ public class AlbumControllerIT {
     public void testGetAllAlbums() throws Exception {
 
         // Given
-        Album album1 = new Album();
-        album1.setNombre("Album 1");
+        Album album1 = Album.builder()
+                .nombre("Album 1")
+                .build();
         albumRepository.save(album1);
 
-        Album album2 = new Album();
-        album2.setNombre("Album 2");
+        Album album2 = Album.builder()
+                .nombre("Album 2")
+                .build();
         albumRepository.save(album2);
 
         // Then
@@ -70,8 +72,9 @@ public class AlbumControllerIT {
     public void testGetAlbumById() throws Exception {
 
         // Given
-        Album album = new Album();
-        album.setNombre("Album Test");
+        Album album = Album.builder()
+                .nombre("Album Test")
+                .build();
         album = albumRepository.save(album);
 
         // Then
@@ -91,10 +94,11 @@ public class AlbumControllerIT {
             writer.write("test content");
         }
 
-        Album album = new Album();
-        album.setNombre("Album con Imagen");
-        album.setDescripcion("Descripción del Album");
-        album.setImagen(tempFile.getAbsolutePath());
+        Album album = Album.builder()
+                .nombre("Album con Imagen")
+                .descripcion("Descripción del Album")
+                .imagen(tempFile.getAbsolutePath())
+                .build();
         album = albumRepository.save(album);
 
         // Then
@@ -107,8 +111,9 @@ public class AlbumControllerIT {
     public void testCreateAlbum() throws Exception {
 
         // Given
-        Album album = new Album();
-        album.setNombre("Nuevo Album");
+        Album album = Album.builder()
+                .nombre("Nuevo Album")
+                .build();
 
         // Then
         mockMvc.perform(post("/api/albums")
@@ -144,8 +149,9 @@ public class AlbumControllerIT {
     public void testUpdateAlbumById() throws Exception {
 
         // Given
-        Album album = new Album();
-        album.setNombre("Album Original");
+        Album album = Album.builder()
+                .nombre("Album a Original")
+                .build();
         album = albumRepository.save(album);
 
         album.setNombre("Album Actualizado");
@@ -162,8 +168,9 @@ public class AlbumControllerIT {
     public void testDeleteAlbumById() throws Exception {
 
         // Given
-        Album album = new Album();
-        album.setNombre("Album a Eliminar");
+        Album album = Album.builder()
+                .nombre("Album a Eliminar")
+                .build();
         album = albumRepository.save(album);
 
         // Then
