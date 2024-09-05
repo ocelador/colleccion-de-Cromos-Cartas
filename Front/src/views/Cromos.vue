@@ -64,7 +64,7 @@
       <li v-for="cromo in filteredCromos" :key="cromo.id" :class="{'bg-gray': !cromo.adquirido}" class="list-group-item">
         {{ cromo.nombre }} - {{ cromo.descripcion }} - {{ cromo.anio }} - {{ cromo.valor }} - {{ cromo.rareza }} - {{ cromo.adquirido ? 'Adquirido' : 'No Adquirido' }}
         <div>
-          <button @click="selectCromo(cromo)" class="btn btn-info btn-sm">{{ cromo.adquirido ? 'Seleccionar' : 'Agregar' }}</button>
+          <button @click="markAsAcquired(cromo)" class="btn btn-info btn-sm" v-if="!cromo.adquirido">Agregar</button>
           <button @click="markAsNotAcquired(cromo)" class="btn btn-secondary btn-sm" v-if="cromo.adquirido">No Adquirido</button>
           <button @click="confirmDeleteCromo(cromo.id)" class="btn btn-danger btn-sm">Eliminar</button>
         </div>
@@ -155,13 +155,12 @@ export default {
           console.error('Error al crear el cromo:', error);
         });
     },
-    updateCromo() {
+    updateCromo(cromo) {
       const albumId = this.$route.params.albumId;
-      this.cromo.album = { id: albumId }; // Asignar album al cromo
-      axios.put(`/api/cromos/${this.cromo.id}`, this.cromo, { headers: { 'Cache-Control': 'no-cache' } })
+      cromo.album = { id: albumId }; // Asignar album al cromo
+      axios.put(`/api/cromos/${cromo.id}`, cromo, { headers: { 'Cache-Control': 'no-cache' } })
         .then(response => {
           this.getAllCromos(); // Actualiza la lista de cromos
-          this.resetCromo();
         })
         .catch(error => {
           console.error('Error al actualizar el cromo:', error);
@@ -183,13 +182,9 @@ export default {
     closeModal() {
       this.cromoIdToDelete = null;
     },
-    selectCromo(cromo) {
-      if (!cromo.adquirido) {
-        cromo.adquirido = true; // Marcar el cromo como adquirido
-        this.updateCromo(cromo); // Actualizar el cromo en el servidor
-      } else {
-        this.cromo = { ...cromo };
-      }
+    markAsAcquired(cromo) {
+      cromo.adquirido = true; // Marcar el cromo como adquirido
+      this.updateCromo(cromo); // Actualizar el cromo en el servidor
     },
     markAsNotAcquired(cromo) {
       cromo.adquirido = false; // Marcar el cromo como no adquirido
