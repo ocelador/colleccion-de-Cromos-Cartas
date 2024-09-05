@@ -59,10 +59,13 @@ public class CromosControllerIT {
 
     @Test
     public void testGetCromosById() throws Exception {
+
+        // Given
         Cromos cromo = new Cromos();
         cromo.setNombre("Cromo Test");
         cromo = cromosRepository.save(cromo);
 
+        // Then
         mockMvc.perform(get("/api/cromos/{id}", cromo.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Cromo Test"));
@@ -70,9 +73,12 @@ public class CromosControllerIT {
 
     @Test
     public void testCreateCromos() throws Exception {
+
+        // Given
         Cromos cromo = new Cromos();
         cromo.setNombre("Nuevo Cromo");
 
+        // Then
         mockMvc.perform(post("/api/cromos")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(cromo)))
@@ -82,12 +88,16 @@ public class CromosControllerIT {
 
     @Test
     public void testUpdateCromosById() throws Exception {
+
+        // Given
         Cromos cromo = new Cromos();
         cromo.setNombre("Cromo Original");
         cromo = cromosRepository.save(cromo);
 
+        // When
         cromo.setNombre("Cromo Actualizado");
 
+        // Then
         mockMvc.perform(put("/api/cromos/{id}", cromo.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(cromo)))
@@ -97,10 +107,13 @@ public class CromosControllerIT {
 
     @Test
     public void testDeleteCromosById() throws Exception {
+
+        // Given
         Cromos cromo = new Cromos();
         cromo.setNombre("Cromo a Eliminar");
         cromo = cromosRepository.save(cromo);
 
+        // Then
         mockMvc.perform(delete("/api/cromos/{id}", cromo.getId()))
                 .andExpect(status().isOk());
     }
