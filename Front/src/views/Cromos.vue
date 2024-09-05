@@ -101,7 +101,8 @@ export default {
         anio: null,
         valor: null,
         rareza: '',
-        album: null // Añadir album al objeto cromo
+        album: null, // Añadir album al objeto cromo
+        adquirido: true // Marcar nuevos cromos como adquiridos por defecto
       },
       filtroNombre: '', // Añadir propiedad reactiva para el filtro
       filtroCriterio: '', // Añadir propiedad reactiva para el criterio de filtrado
@@ -182,7 +183,12 @@ export default {
       this.cromoIdToDelete = null;
     },
     selectCromo(cromo) {
-      this.cromo = { ...cromo };
+      if (!cromo.adquirido) {
+        cromo.adquirido = true; // Marcar el cromo como adquirido
+        this.updateCromo(cromo); // Actualizar el cromo en el servidor
+      } else {
+        this.cromo = { ...cromo };
+      }
     },
     resetCromo() {
       this.cromo = {
@@ -192,7 +198,8 @@ export default {
         anio: null,
         valor: null,
         rareza: '',
-        album: null // Reiniciar album
+        album: null, // Reiniciar album
+        adquirido: true // Marcar nuevos cromos como adquiridos por defecto
       };
     },
     goToCollecciones() {
