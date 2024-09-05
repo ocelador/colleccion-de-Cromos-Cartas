@@ -44,21 +44,25 @@ public class AlbumControllerTest {
 
     @BeforeEach
     void setUp() {
-        album1 = new Album();
-        album1.setId(1L);
-        album1.setNombre("Album 1");
+        album1 = Album.builder()
+                .id(1L)
+                .nombre("Album 1")
+                .build();
 
-        album2 = new Album();
-        album2.setId(2L);
-        album2.setNombre("Album 2");
+        album2 = Album.builder()
+                .id(2L)
+                .nombre("Album 2")
+                .build();
 
-        cromo1 = new Cromos();
-        cromo1.setId(1L);
-        cromo1.setNombre("Cromo 1");
+        cromo1 = Cromos.builder()
+                .id(1L)
+                .nombre("Cromo 1")
+                .build();
 
-        cromo2 = new Cromos();
-        cromo2.setId(2L);
-        cromo2.setNombre("Cromo 2");
+        cromo2 = Cromos.builder()
+                .id(2L)
+                .nombre("Cromo 2")
+                .build();
     }
 
     @Test

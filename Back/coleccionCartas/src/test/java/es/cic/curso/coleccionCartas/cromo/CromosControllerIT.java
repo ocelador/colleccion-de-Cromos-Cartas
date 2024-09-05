@@ -47,19 +47,22 @@ public class CromosControllerIT {
         cromosRepository.deleteAll();
         albumRepository.deleteAll();
 
-        album = new Album();
-        album.setNombre("Album Test");
+        album = Album.builder()
+                .nombre("Album Test")
+                .build();
         album = albumRepository.save(album);
     }
 
     @Test
     public void testGetAllCromos() throws Exception {
-        Cromos cromo1 = new Cromos();
-        cromo1.setNombre("Cromo 1");
+        Cromos cromo1 = Cromos.builder()
+                .nombre("Cromo 1")
+                .build();
         cromosRepository.save(cromo1);
 
-        Cromos cromo2 = new Cromos();
-        cromo2.setNombre("Cromo 2");
+        Cromos cromo2 = Cromos.builder()
+                .nombre("Cromo 2")
+                .build();
         cromosRepository.save(cromo2);
 
         mockMvc.perform(get("/api/cromos"))
@@ -73,8 +76,9 @@ public class CromosControllerIT {
     public void testGetCromosById() throws Exception {
 
         // Given
-        Cromos cromo = new Cromos();
-        cromo.setNombre("Cromo Test");
+        Cromos cromo = Cromos.builder()
+                .nombre("Cromo Test")
+                .build();
         cromo = cromosRepository.save(cromo);
 
         // Then
@@ -87,12 +91,14 @@ public class CromosControllerIT {
     public void testGetCromosByNombre() throws Exception {
 
         // Given
-        Cromos cromo1 = new Cromos();
-        cromo1.setNombre("Cromo Test");
+        Cromos cromo1 = Cromos.builder()
+                .nombre("Cromo Test")
+                .build();
         cromosRepository.save(cromo1);
 
-        Cromos cromo2 = new Cromos();
-        cromo2.setNombre("Cromo Test");
+        Cromos cromo2 = Cromos.builder()
+                .nombre("Cromo Test")
+                .build();
         cromosRepository.save(cromo2);
 
         // When & Then
@@ -108,22 +114,25 @@ public class CromosControllerIT {
     public void testGetCromosAdquiridosByAlbumId() throws Exception {
 
         // Given
-        Cromos cromo1 = new Cromos();
-        cromo1.setNombre("Cromo Adquirido 1");
-        cromo1.setAdquirido(true);
-        cromo1.setAlbum(album);
+        Cromos cromo1 = Cromos.builder()
+                .nombre("Cromo Adquirido 1")
+                .adquirido(true)
+                .album(album)
+                .build();
         cromosRepository.save(cromo1);
 
-        Cromos cromo2 = new Cromos();
-        cromo2.setNombre("Cromo Adquirido 2");
-        cromo2.setAdquirido(true);
-        cromo2.setAlbum(album);
+        Cromos cromo2 = Cromos.builder()
+                .nombre("Cromo Adquirido 2")
+                .adquirido(true)
+                .album(album)
+                .build();
         cromosRepository.save(cromo2);
 
-        Cromos cromo3 = new Cromos();
-        cromo3.setNombre("Cromo No Adquirido");
-        cromo3.setAdquirido(false);
-        cromo3.setAlbum(album);
+        Cromos cromo3 = Cromos.builder()
+                .nombre("Cromo No Adquirido")
+                .adquirido(false)
+                .album(album)
+                .build();
         cromosRepository.save(cromo3);
 
         // When & Then
@@ -138,8 +147,9 @@ public class CromosControllerIT {
     public void testCreateCromos() throws Exception {
 
         // Given
-        Cromos cromo = new Cromos();
-        cromo.setNombre("Nuevo Cromo");
+        Cromos cromo = Cromos.builder()
+                .nombre("Nuevo Cromo")
+                .build();
 
         // Then
         mockMvc.perform(post("/api/cromos")
@@ -153,8 +163,9 @@ public class CromosControllerIT {
     public void testUpdateCromosById() throws Exception {
 
         // Given
-        Cromos cromo = new Cromos();
-        cromo.setNombre("Cromo Original");
+        Cromos cromo = Cromos.builder()
+                .nombre("Cromo Original")
+                .build();
         cromo = cromosRepository.save(cromo);
 
         // When
@@ -172,8 +183,9 @@ public class CromosControllerIT {
     public void testDeleteCromosById() throws Exception {
 
         // Given
-        Cromos cromo = new Cromos();
-        cromo.setNombre("Cromo a Eliminar");
+        Cromos cromo = Cromos.builder()
+                .nombre("Cromo a Eliminar")
+                .build();
         cromo = cromosRepository.save(cromo);
 
         // Then

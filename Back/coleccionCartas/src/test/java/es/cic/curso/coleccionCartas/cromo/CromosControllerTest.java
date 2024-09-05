@@ -33,13 +33,15 @@ public class CromosControllerTest {
 
     @BeforeEach
     void setUp() {
-        cromo1 = new Cromos();
-        cromo1.setId(1L);
-        cromo1.setNombre("Cromo 1");
+        cromo1 = Cromos.builder()
+                .id(1L)
+                .nombre("Cromo 1")
+                .build();
 
-        cromo2 = new Cromos();
-        cromo2.setId(2L);
-        cromo2.setNombre("Cromo 2");
+        cromo2 = Cromos.builder()
+                .id(2L)
+                .nombre("Cromo 2")
+                .build();
     }
 
     @Test
