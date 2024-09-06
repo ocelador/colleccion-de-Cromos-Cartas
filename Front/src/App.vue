@@ -1,37 +1,28 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 </script>
+
 <template>
-  <main>
+  <main class="row d-flex">
     <!-- Barra de navegación -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="d-flex bg-light flex-column col-sm-2">
       <div class="container">
         <RouterLink class="navbar-brand" to="/">MundoCromo</RouterLink>
-        <button 
-          class="navbar-toggler" 
-          type="button" 
-          data-bs-toggle="collapse" 
-          data-bs-target="#navbarNav" 
-          aria-controls="navbarNav" 
-          aria-expanded="false" 
-          aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <RouterLink class="nav-link" active-class="active" to="/">Inicio</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link" active-class="active" to="/collecciones">Colecciones</RouterLink>
-            </li>
-          </ul>
-        </div>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <RouterLink class="nav-link" active-class="active" to="/">Inicio</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" active-class="active" to="/collecciones">Colecciones</RouterLink>
+          </li>
+        </ul>
       </div>
     </nav>
     
-    <!-- Contenido dinámico -->
-    <RouterView />
+    <div class="col-sm-10">
+      <!-- Contenido dinámico -->
+      <RouterView />
+    </div>
   </main>
 </template>
 
@@ -65,17 +56,5 @@ main {
 .navbar-nav .nav-link.active {
   color: #007bff; /* Color del enlace activo */
   font-weight: bold;
-}
-
-.navbar-toggler {
-  border: none;
-}
-
-.navbar-toggler-icon {
-  background-color: #007bff; /* Color personalizado del icono */
-}
-
-.navbar-light .navbar-toggler:focus {
-  box-shadow: none;
 }
 </style>
