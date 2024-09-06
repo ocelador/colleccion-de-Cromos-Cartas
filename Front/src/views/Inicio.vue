@@ -1,8 +1,8 @@
 <template>
-  <div class="container d-flex  align-items-center vh-100">
-    <div class="inicio-container text-center p-4 rounded flex-column d-flex align-items-center w-100">
+  <div class="container d-flex align-items-center justify-content-center vh-100">
+    <div class="inicio-container p-4 rounded flex-column w-100">
       <h1 class="my-4">{{ message }}</h1>
-      <div id="carouselExampleRide" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+      <div id="carouselExampleRide" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
         <div class="carousel-inner">
           <div v-for="(image, index) in images" :key="index" class="carousel-item" :class="{ active: index === 0 }">
             <img :src="image" class="d-block w-100 img-custom" alt="Imagen" />
@@ -37,6 +37,11 @@ const images = ref([liga2, pokemon, magic, futbol]);
 <style scoped>
 .inicio-container {
   text-align: center;
+  margin-top: -10vh; /* Sube el contenido hacia arriba */
+}
+
+h1 {
+  margin-bottom: 40px; /* Incrementa el espaciado entre el título y el carrusel */
 }
 
 .img-custom {
@@ -49,6 +54,7 @@ const images = ref([liga2, pokemon, magic, futbol]);
 @media (max-width: 768px) {
   .inicio-container {
     padding-bottom: 15vh;
+    margin-top: -5vh; /* Sube un poco en pantallas pequeñas */
   }
 
   .inicio-container h1 {
