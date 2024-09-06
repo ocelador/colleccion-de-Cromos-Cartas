@@ -22,7 +22,7 @@
       <input type="text" v-model="cromo.rareza" class="form-control" id="rareza">
     </div>
     <button @click="createCromo" class="btn btn-primary">Agregar Cromo</button>
-    <button @click="updateCromo" class="btn btn-warning">Actualizar Cromo</button>
+    <button @click="updateCromo" class="btn btn-warning" :disabled="!cromo.id">Actualizar Cromo</button>
     <button @click="resetCromo" class="btn btn-danger">Limpiar</button>
     <button @click="goToCollecciones" class="btn btn-secondary">Volver</button>
 
@@ -66,6 +66,7 @@
         <div>
           <button @click="markAsAcquired(cromo)" class="btn btn-info btn-sm" v-if="!cromo.adquirido">Agregar</button>
           <button @click="markAsNotAcquired(cromo)" class="btn btn-secondary btn-sm" v-if="cromo.adquirido">No Adquirido</button>
+          <button @click="selectCromo(cromo)" class="btn btn-success btn-sm">Seleccionar</button>
           <button @click="confirmDeleteCromo(cromo.id)" class="btn btn-danger btn-sm">Eliminar</button>
         </div>
       </li>
@@ -155,12 +156,13 @@ export default {
           console.error('Error al crear el cromo:', error);
         });
     },
-    updateCromo(cromo) {
+    updateCromo() {
       const albumId = this.$route.params.albumId;
-      cromo.album = { id: albumId }; // Asignar album al cromo
-      axios.put(`/api/cromos/${cromo.id}`, cromo, { headers: { 'Cache-Control': 'no-cache' } })
+      this.cromo.album = { id: albumId }; // Asignar album al cromo
+      axios.put(`/api/cromos/${this.cromo.id}`, this.cromo, { headers: { 'Cache-Control': 'no-cache' } })
         .then(response => {
           this.getAllCromos(); // Actualiza la lista de cromos
+          this.resetCromo();
         })
         .catch(error => {
           console.error('Error al actualizar el cromo:', error);
@@ -189,6 +191,9 @@ export default {
     markAsNotAcquired(cromo) {
       cromo.adquirido = false; // Marcar el cromo como no adquirido
       this.updateCromo(cromo); // Actualizar el cromo en el servidor
+    },
+    selectCromo(cromo) {
+      this.cromo = { ...cromo }; // Cargar los datos del cromo en el formulario
     },
     resetCromo() {
       this.cromo = {
